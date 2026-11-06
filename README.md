@@ -18,6 +18,10 @@ Works in Chrome, Edge, Brave and other Chromium browsers.
 
 Nothing is sent anywhere. Results stay in your browser. The bulk checker fetches only the sites you paste in.
 
+## Contact
+
+Made by [We Need To Talk About Kevin](https://weneedtotalkaboutkevin.com). Questions or a site it gets wrong: hello@weneedtotalkaboutkevin.com
+
 ## Licence
 
 MIT
