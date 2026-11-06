@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Etch Detector: check a list of sites</title>
+<link rel="stylesheet" href="bulk.css" />
+</head>
+<body>
+  <h1>Check a list of sites</h1>
+  <p class="hint">One domain or URL per line. Bare domains get https:// added.</p>
+  <textarea id="input" rows="10" spellcheck="false" placeholder="etchwp.com&#10;https://example.com/page"></textarea>
+  <div class="bar">
+    <button id="check" type="button">Check</button>
+    <button id="export" type="button" disabled>Export CSV</button>
+    <span id="progress"></span>
+  </div>
+  <ul id="results"></ul>
+  <script src="detect.js"></script>
+  <script src="bulk.js"></script>
+</body>
+</html>
