@@ -92,7 +92,7 @@
       if (row.addons.length) bits.push(`addons: ${row.addons.join(', ')}`);
       if (bits.length) meta.append(document.createTextNode(` · ${bits.join(' · ')}`));
     } else {
-      meta.append(el('span', 'none', row.error ? 'No result' : 'Not Etch'));
+      meta.append(el('span', 'none', row.error ? 'No result' : 'Not Etch or Bricks'));
     }
     li.append(meta);
     if (row.error) li.append(el('div', 'error', row.error));

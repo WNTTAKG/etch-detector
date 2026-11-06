@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Etch Detector",
-  "version": "0.2.0",
-  "description": "Shows whether the current site is built with EtchWP (WordPress plugin) or Etch Studio.",
+  "version": "0.3.0",
+  "description": "Shows whether the current site is built with EtchWP, Etch Studio or Bricks.",
   "permissions": [
     "storage"
   ],

@@ -1,12 +1,14 @@
 // Pure detection on a Document.
 // Returns { product, confidence, evidence[], version, addons[] }.
-// product: "EtchWP" | "Etch Studio" | null
-// version: Etch version string or null. Etch normally enqueues its assets with a
+// product: "EtchWP" | "Etch Studio" | "Bricks" | null
+// version: Etch or Bricks version string or null. Etch normally enqueues its assets with a
 //   file-timestamp ?ver= (e.g. 1762245147), so a real version is rarely exposed.
 // addons: labels such as "Automatic.css 4.0.2", "Frames".
 function detectEtch(doc) {
   const base = detectEtchProduct(doc);
-  return { ...base, version: base.product === 'EtchWP' ? etchVersion(doc) : null, addons: etchAddons(doc) };
+  const version =
+    base.product === 'EtchWP' ? etchVersion(doc) : base.product === 'Bricks' ? bricksVersion(doc) : null;
+  return { ...base, version, addons: etchAddons(doc) };
 }
 
 function etchAssetUrls(doc) {
@@ -46,6 +48,33 @@ function etchVersion(doc) {
   return null;
 }
 
+// Bricks ships its own Google marker lib with ?v=<Bricks version>; core assets use timestamps.
+function bricksVersion(doc) {
+  for (const u of etchAssetUrls(doc)) {
+    if (!/\/wp-content\/themes\/bricks\//i.test(u)) continue;
+    for (const name of ['v', 'ver']) {
+      const v = etchQueryParam(u, name);
+      if (v && ETCH_SEMVER.test(v)) return v;
+    }
+  }
+  // The marker lib URL is often only inside inline script config (escaped slashes).
+  const html = doc.documentElement ? doc.documentElement.innerHTML : '';
+  const m = html.match(/themes\\?\/bricks\\?\/[^"'\s]*bricks-google-marker[^"'\s]*?[?&]v=(\d+\.\d+(?:\.\d+)*)/i);
+  return m ? m[1] : null;
+}
+
+function bricksEvidence(doc, urls) {
+  const ev = [];
+  const asset = urls.find((u) => /\/wp-content\/themes\/bricks\//i.test(u));
+  if (asset) ev.push(`Bricks theme asset: ${asset}`);
+  const body = doc.body ? doc.body.classList : null;
+  if (body && body.contains('wp-theme-bricks')) ev.push('body class "wp-theme-bricks"');
+  if (body && body.contains('bricks-is-frontend')) ev.push('body class "bricks-is-frontend"');
+  const els = doc.querySelectorAll('[class*="brxe-"]').length;
+  if (els) ev.push(`${els} Bricks elements (brxe-*)`);
+  return ev;
+}
+
 function etchAddons(doc) {
   const urls = etchAssetUrls(doc);
   const has = (re) => urls.some((u) => re.test(u));
@@ -76,7 +105,7 @@ function etchAddons(doc) {
     addons.push(ver ? `Automatic.css ${ver}` : 'Automatic.css');
   }
 
-  // Frames (Digital Gravy): plugin assets under frames-plugin/. Its ?ver= is a timestamp.
+  // Frames (Digital Gravy, Bricks only): plugin assets under frames-plugin/. Its ?ver= is a timestamp.
   if (has(/\/wp-content\/plugins\/frames-plugin\//i)) addons.push('Frames');
 
   return addons;
@@ -127,5 +156,10 @@ function detectEtchProduct(doc) {
       : { product: 'Etch Studio', confidence: 'medium', evidence: [...generic, 'no WordPress detected'] };
   }
   if (studio.length) return { product: 'EtchWP', confidence: 'low', evidence: [...studio, 'WordPress detected'] };
+  const bricks = bricksEvidence(doc, urls);
+  if (bricks.length) {
+    const strong = bricks.some((e) => !e.includes('brxe-'));
+    return { product: 'Bricks', confidence: strong ? 'high' : 'medium', evidence: bricks };
+  }
   return { product: null, confidence: null, evidence: [] };
 }

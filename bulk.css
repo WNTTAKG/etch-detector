@@ -11,6 +11,7 @@ textarea { width: 100%; box-sizing: border-box; font: 13px/1.4 ui-monospace, mon
 .meta { font-size: 13px; margin-top: 2px; }
 .prod-EtchWP { color: #2271b1; font-weight: 600; }
 .prod-EtchStudio { color: #7c3aed; font-weight: 600; }
+.prod-Bricks { color: #b8860b; font-weight: 600; }
 .none { color: #666; }
 .pending { color: #999; }
 .error { color: #b32d2e; font-size: 12px; }

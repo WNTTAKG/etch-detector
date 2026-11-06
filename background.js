@@ -1,6 +1,7 @@
 const BADGE = {
   EtchWP: { text: 'WP', color: '#2271b1' },
   'Etch Studio': { text: 'ST', color: '#7c3aed' },
+  Bricks: { text: 'BR', color: '#b8860b' },
 };
 
 chrome.runtime.onMessage.addListener((msg, sender) => {

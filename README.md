@@ -1,9 +1,9 @@
 # Etch Detector
 
-A Chrome extension that shows whether a site is built with **EtchWP** (the WordPress plugin) or **Etch Studio**.
+A Chrome extension that shows whether a site is built with **EtchWP** (the WordPress plugin), **Etch Studio** or **Bricks**.
 
-- Toolbar badge: **WP** for EtchWP, **ST** for Etch Studio.
-- Click the icon to see the result and any add-ons found (Automatic.css, Frames).
+- Toolbar badge: **WP** for EtchWP, **ST** for Etch Studio, **BR** for Bricks.
+- Click the icon to see the result and any add-ons found (Automatic.css, and Frames on Bricks sites).
 - **Check a list of sites**: paste domains, check them in bulk, export a CSV.
 
 ## Install

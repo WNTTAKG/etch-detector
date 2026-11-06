@@ -6,8 +6,8 @@
   if (!r) { $('product').textContent = 'No result (reload the page)'; return; }
   $('product').textContent = r.product
     ? `Built with ${r.product}${r.version ? ` ${r.version}` : ''}`
-    : 'Not Etch';
-  $('conf').textContent = r.confidence ? `Confidence: ${r.confidence}` : 'No Etch markers found.';
+    : 'Not Etch or Bricks';
+  $('conf').textContent = r.confidence ? `Confidence: ${r.confidence}` : 'No Etch or Bricks markers found.';
   if (r.addons && r.addons.length) {
     const div = document.createElement('div');
     div.id = 'addons';
